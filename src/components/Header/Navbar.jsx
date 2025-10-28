@@ -5,7 +5,8 @@ const Navbar = () => {
   return (
     <nav className="flex justify-center p-5 text-orange-400 gap-4 shadow-lg">
       <Link to="/">Home</Link>
-      <Link to="/about">about</Link>
+      <Link to="/about">About</Link>
+      <Link to="/login">Login</Link>
     </nav>
   );
 };
