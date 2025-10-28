@@ -82,7 +82,7 @@ import { Link } from "react-router";
 const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
+    // console.log("Login Data:", formData);
   };
 
   return (
@@ -102,7 +102,6 @@ const Login = () => {
               type="email"
               name="email"
               placeholder="Enter your email"
-              value={formData.email}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
@@ -117,7 +116,6 @@ const Login = () => {
               type="password"
               name="password"
               placeholder="Enter your password"
-              value={formData.password}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />

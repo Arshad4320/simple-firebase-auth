@@ -1,11 +1,24 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
+import { auth } from "./../../firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Register Data:", formData);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email, password);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // console.log("Register Data:", formData);
   };
 
   return (
@@ -16,22 +29,6 @@ const Register = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Name */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Full Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your full name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-            />
-          </div>
-
           {/* Email */}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
@@ -41,8 +38,6 @@ const Register = () => {
               type="email"
               name="email"
               placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
             />
@@ -57,7 +52,6 @@ const Register = () => {
               type="password"
               name="password"
               placeholder="Enter your password"
-              value={formData.password}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
             />
