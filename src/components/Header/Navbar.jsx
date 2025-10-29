@@ -1,12 +1,33 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-center p-5 text-orange-400 gap-4 shadow-lg">
-      <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
-      <Link to="/login">Login</Link>
+    <nav className="flex justify-center p-5  gap-4 shadow-lg">
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? "text-blue-500 font-bold " : "text-gray-600"
+        }
+        to="/"
+      >
+        Home
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? "text-blue-500 font-bold " : "text-gray-600"
+        }
+        to="/about"
+      >
+        About
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? "text-blue-500 font-bold " : "text-gray-600"
+        }
+        to="/login"
+      >
+        Login
+      </NavLink>
     </nav>
   );
 };

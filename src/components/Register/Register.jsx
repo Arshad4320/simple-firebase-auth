@@ -2,20 +2,31 @@ import React, { useState } from "react";
 import { Link } from "react-router";
 import { auth } from "./../../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 const Register = () => {
+  const [error, setError] = useState(false);
+  const [show, setShow] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(email, password);
+    const regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6}$/;
+
+    if (!regExp.test(password)) {
+      setError(true);
+      return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then((data) => {
+        setError(false);
         console.log(data);
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
       });
 
     // console.log("Register Data:", formData);
@@ -48,13 +59,23 @@ const Register = () => {
             <label className="block text-gray-700 font-medium mb-1">
               Password
             </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-            />
+            <div className="relative ">
+              <input
+                type={show ? "text" : "password"}
+                name="password"
+                placeholder="Enter your password"
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+              />
+              <div
+                className="absolute top-3 right-3"
+                onClick={() => {
+                  setShow(!show);
+                }}
+              >
+                {show ? <IoEyeOutline /> : <IoEyeOffOutline />}{" "}
+              </div>
+            </div>
           </div>
 
           {/* Submit Button */}
@@ -73,6 +94,9 @@ const Register = () => {
             Login
           </Link>
         </p>
+        {error && (
+          <p className="text-red-500">please provide letter, number, symbol </p>
+        )}
       </div>
     </div>
   );

@@ -76,13 +76,44 @@
 
 // export default Login;
 
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { Link } from "react-router";
+import { auth } from "../../firebase/firebase";
+import { useRef } from "react";
 
 const Login = () => {
+  const emailRef = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("Login Data:", formData);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email, password);
+    // 123Aa!
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleForgetPassword = () => {
+    const email = emailRef.current.value;
+
+    if (!email) {
+      alert("Please enter your email before resetting password!");
+      return;
+    }
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert("Please check your email for reset instructions.");
+      })
+      .catch((err) => console.log(err.message));
   };
 
   return (
@@ -102,6 +133,7 @@ const Login = () => {
               type="email"
               name="email"
               placeholder="Enter your email"
+              ref={emailRef}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
@@ -120,7 +152,9 @@ const Login = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
           </div>
-
+          <p className="cursor-pointer" onClick={handleForgetPassword}>
+            Forget Password{" "}
+          </p>
           {/* Button */}
           <button
             type="submit"
